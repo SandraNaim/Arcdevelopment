@@ -74,6 +74,7 @@ export default function Header(props) {
     const [value, setValue] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleChange = (evt, value) => {
         setValue(value)
@@ -89,6 +90,19 @@ export default function Header(props) {
         setOpen(false)
     }
 
+    const handleMenuItemClick = (evt, index) => {
+        setAnchorEl(null);
+        setOpen(false);
+        setSelectedIndex(index);
+    }
+
+    const menuOptions = [
+        {name: "Services", link: "services"},
+        {name: "Custom Software Development", link: "customsoftware"},
+        {name: "Mobile App Development", link: "mobileapps"},
+        {name: "Website Development", link: "websites"},
+    ]
+
     useEffect(() => {
         if(window.location.pathname === "/" && value !== 0){
             setValue(0)
@@ -103,6 +117,61 @@ export default function Header(props) {
         } else if(window.location.pathname === "/estimate" && value !== 5){
             setValue(5)
         }
+
+        switch(window.location.pathname){
+            case "/":
+                if(value !== 0) {
+                    setValue(0)
+                } 
+            break;
+            case "/services":
+                if(value !== 1) {
+                    setValue(1);
+                    setSelectedIndex(0);
+                } 
+            break;
+            case "/customsoftware":
+                if(value !== 1) {
+                    setValue(1);
+                    setSelectedIndex(1);
+                }
+            case "/mobileapps":
+                if(value !== 1) {
+                    setValue(1);
+                    setSelectedIndex(2);
+                } 
+            break;
+            case "/websites":
+                if(value !== 1) {
+                    setValue(1);
+                    setSelectedIndex(3);
+                }
+            break;
+            case "/revolution":
+                if(value !== 2) {
+                    setValue(2)
+                }
+                 
+            break;
+            case "/about":
+                if(value !== 3) {
+                    setValue(3)
+                } 
+            break;
+            case "/contact":
+                if(value !== 4) {
+                    setValue(4)
+                } 
+            break;
+            case "/estimate":
+                if(value !== 5) {
+                    setValue(5)
+                } 
+            break;
+            default: 
+                break;
+        }
+
     }, [value])
 
     return (
@@ -138,10 +207,20 @@ export default function Header(props) {
                             classes={{ paper: classes.menu }}
                             elevation={0}
                         >
-                            <MenuItem classes={{ root: classes.menuItem }} onClick={() => {handleClose(); setValue(1)}} component={Link} to="/services">Services</MenuItem>
-                            <MenuItem classes={{ root: classes.menuItem }} onClick={() => {handleClose(); setValue(1)}} component={Link} to="/customsoftware">Custom Software Development</MenuItem>
-                            <MenuItem classes={{ root: classes.menuItem }} onClick={() => {handleClose(); setValue(1)}} component={Link} to="/mobileapps">Mobile App Development</MenuItem>
-                            <MenuItem classes={{ root: classes.menuItem }} onClick={() => {handleClose(); setValue(1)}} component={Link} to="/websites">Website Development</MenuItem>
+                            {
+                                menuOptions.map((option, index) => (
+                                    <MenuItem 
+                                        key={index}
+                                        classes={{ root: classes.menuItem }} 
+                                        onClick={(evt) => {handleMenuItemClick(evt, index); setValue(1); handleClose()}} 
+                                        component={Link} 
+                                        to={option.link}
+                                        selected={index === selectedIndex && value === 1}
+                                    >
+                                        {option.name}
+                                    </MenuItem>
+                                ))
+                            }
                         </Menu>
                     </Toolbar>
                 </AppBar>
