@@ -6,6 +6,8 @@ import { makeStyles } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -58,9 +60,21 @@ export default function Header(props) {
     const classes = useStyles();
 
     const [value, setValue] = useState(0);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const handleChange = (evt, value) => {
         setValue(value)
+    }
+
+    const handleClick = (evt) => {
+        setAnchorEl(evt.currentTarget);
+        setOpen(true)
+    }
+
+    const handleClose = (evt) => {
+        setAnchorEl(null);
+        setOpen(false)
     }
 
     useEffect(() => {
@@ -89,7 +103,13 @@ export default function Header(props) {
                         </Button>
                         <Tabs value={value} onChange={handleChange} indicatorColor="primary" className={classes.tabContainer}>
                             <Tab className={classes.tab} label="Home" component={Link} to="/"/>
-                            <Tab className={classes.tab} label="Services" component={Link} to="/services" />
+                            <Tab 
+                                aria-owns={anchorEl ? "simple-menu" : undefined}
+                                aria-haspopup={anchorEl ? true : undefined}
+                                onMouseOver={(evt) => handleClick(evt)}
+                                className={classes.tab} 
+                                label="Services"
+                            />
                             <Tab className={classes.tab} label="The Revolution" component={Link} to="/revolution" />
                             <Tab className={classes.tab} label="About Us" component={Link} to="/about" />
                             <Tab className={classes.tab} label="Contact Us" component={Link} to="/contact" />
@@ -97,6 +117,12 @@ export default function Header(props) {
                         <Button variant="contained" color="secondary" className={classes.button}>
                         Free Estimate
                         </Button>
+                        <Menu id="simple-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{onMouseLeave: handleClose}}>
+                            <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/services">Services</MenuItem>
+                            <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/customsoftware">Custom Software Development</MenuItem>
+                            <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/mobileapps">Mobile App Development</MenuItem>
+                            <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/websites">Website Development</MenuItem>
+                        </Menu>
                     </Toolbar>
                 </AppBar>
             </ElevationScroll>
