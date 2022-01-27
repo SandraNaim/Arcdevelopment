@@ -1,9 +1,9 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core";
 
 const arcBlue = '#0B72B9';
 const arcOrange = '#FFBA60';
 
-export default createMuiTheme({
+export default createTheme({
     palette: {
         common: {
             blue: `${arcBlue}`,
