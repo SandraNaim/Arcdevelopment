@@ -8,7 +8,10 @@ import Typography from "@material-ui/core/Typography";
 import ButtonArrow from "../components/ui/ButtonArrow";
 
 import animationData from "../animations/landinganimation/data";
-import customSoftwareIcon from "../assets/CustomSoftwareIcon.svg"
+import customSoftwareIcon from "../assets/CustomSoftwareIcon.svg";
+import mobileAppIcon from "../assets/mobileIcon.svg";
+import websiteIcon from "../assets/website.svg";
+
 const useStyles = makeStyles(theme => ({
   animation: {
     maxWidth: "40em",
@@ -71,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   subtitle: {
     marginBottom: "1em"
   },
-  customSoftwareIcon: {
+  icon: {
     marginLeft: "2em",
     [theme.breakpoints.down("md")]: {
       marginLeft: 0
@@ -146,7 +149,50 @@ export default function LandingPage() {
               </Button>
             </Grid>
             <Grid item>
-              <img className={classes.customSoftwareIcon} alt="custom software icon" src={customSoftwareIcon} />
+              <img className={classes.icon} alt="custom software icon" src={customSoftwareIcon} />
+            </Grid>
+          </Grid>
+
+          <Grid container direction="row" justify={matchesSM ? "center" : "flex-end"} className={classes.serviceContainer}>
+            <Grid item style={{marginLeft: matchesSM ? 0 : "5em", textAlign: matchesSM ? "center" : undefined}}>
+              <Typography variant="h4">
+                IOS/Andriod App Development
+              </Typography>
+              <Typography variant="subtitle1" className={classes.subtitle}>
+                  Extend Functionality. Extend Access. Increase Engagment
+                </Typography>
+                <Typography variant="subtitle1">
+                  Integrate your web experience or create a standalone 
+                  app{matchesSM ? null : <br />} with either mobile platform
+              </Typography>
+              <Button variant="outlined" className={classes.learnButtonServices}>
+                  <span style={{marginRight: 10}}>Learn More</span>
+                  <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}/>
+              </Button>
+            </Grid>
+            <Grid item style={{marginRight: matchesSM ? 0 : "5em"}}>
+              <img className={classes.icon} alt="mobile app icon" src={mobileAppIcon} />
+            </Grid>
+          </Grid>
+
+          <Grid container direction="row" justify={matchesSM ? "center" : "flex-start"} className={classes.serviceContainer}>
+            <Grid item style={{marginLeft: matchesSM ? 0 : "5em", textAlign: matchesSM ? "center" : undefined}}>
+              <Typography variant="h4">
+                Website Development
+              </Typography>
+              <Typography variant="subtitle1" className={classes.subtitle}>
+                  Reach More. Discover More. Sell More.
+                </Typography>
+                <Typography variant="subtitle1">
+                  Optimized for Search Engine, built for speed.
+              </Typography>
+              <Button variant="outlined" className={classes.learnButtonServices}>
+                  <span style={{marginRight: 10}}>Learn More</span>
+                  <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}/>
+              </Button>
+            </Grid>
+            <Grid item>
+              <img className={classes.icon} alt="website icon" src={websiteIcon} />
             </Grid>
           </Grid>
         </Grid>
