@@ -14,6 +14,7 @@ import customSoftwareIcon from "../assets/CustomSoftwareIcon.svg";
 import mobileAppIcon from "../assets/mobileIcon.svg";
 import websiteIcon from "../assets/websiteIcon.svg";
 import repeatingBackground from "../assets/repeatingBackground.svg";
+import infoBackground from "../assets/infoBackground.svg";
 
 const useStyles = makeStyles(theme => ({
   animation: {
@@ -107,13 +108,22 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 0,
       width: "100%"
     }
-  }
+  },
+  infoBackground: {
+    backgroundImage: `url(${infoBackground})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    height: "100%",
+    width: "100%"
+  },
 }))
 
 export default function LandingPage() {
     const classes = useStyles();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
     const defaultOptions = {
         loop: true,
@@ -219,7 +229,7 @@ export default function LandingPage() {
           </Grid>
         </Grid>
 
-        {/* ___Card Revolution___ */}
+        {/* ___Revolution Block___ */}
         <Grid item>
           <Grid container alignItems="center" justifyContent="center" style={{ height: "100em", marginTop: "12em" }}>
             <Card className={classes.revolutionCard}>
@@ -240,6 +250,43 @@ export default function LandingPage() {
             </Card>
             <div className={classes.revolutionBackground} />
           </Grid>
+        </Grid>
+
+        {/* ___Information Block___ */}
+        <Grid container direction="row" style={{height: "80em"}} alignItems="center">
+          <Grid 
+            item 
+            container 
+            direction={ matchesXS ? "column" : "row" } 
+            style={{position: "absolute", textAlign: matchesXS ? "center" : "inherit"}}
+            spacing={matchesXS ? 10 : 0}
+          >
+            <Grid sm item style={{marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em"}}>
+              <Grid container direction="column">
+                <Typography variant="h2" style={{color: "white"}}>About Us</Typography>
+                <Typography variant="subtitle2">Let's get perdonal</Typography>
+                <Grid item>
+                  <Button variant="outlined" className={classes.learnButtonServices} style={{color: "white", borderColor: "white"}}>
+                      <span style={{marginRight: 10}}>Learn More</span>
+                      <ButtonArrow width={10} height={10} fill="white"/>
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid sm item style={{marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em", textAlign: matchesXS ? "center" : "right"}}>
+              <Grid container direction="column">
+                <Typography variant="h2" style={{color: "white"}}>Contact Us</Typography>
+                <Typography variant="subtitle2">Say hello! :)</Typography>
+                <Grid item>
+                  <Button variant="outlined" className={classes.learnButtonServices} style={{color: "white", borderColor: "white"}}>
+                      <span style={{marginRight: 10}}>Learn More</span>
+                      <ButtonArrow width={10} height={10} fill="white"/>
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <div className={classes.infoBackground} />
         </Grid>
       </Grid>
     )
