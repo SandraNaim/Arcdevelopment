@@ -1,5 +1,6 @@
 import React from "react";
 import Lottie from "react-lottie";
+import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
@@ -121,7 +122,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function LandingPage() {
+export default function LandingPage(props) {
     const classes = useStyles();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -140,17 +141,31 @@ export default function LandingPage() {
       <Grid container direction="column" className={classes.mainContainer}>
         {/* ____Hero Block____ */}
         <Grid item>
-          <Grid container direction="row" justify="flex-end" alignItems="center" >
+          <Grid container direction="row" justifyContent="flex-end" alignItems="center" >
             <Grid item sm className={classes.heroTextContainer}>
               <Typography variant="h2" align="center" gutterBottom>
                 Bringing West Coast Technology<br/>to the Midwest
               </Typography>
-              <Grid container justify="center" className={classes.buttonContainer}>
+              <Grid container justifyContent="center" className={classes.buttonContainer}>
                 <Grid item>
-                  <Button className={classes.estimateButton} variant="contained">Free Estimate</Button>
+                  <Button 
+                    component={Link} 
+                    to='/estimate' 
+                    className={classes.estimateButton} 
+                    variant="contained"
+                    onClick={() => props.setValue(5)}
+                  >
+                    Free Estimate
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" className={classes.learnButtonHero}>
+                  <Button 
+                    component={Link} 
+                    to='/revolution' 
+                    variant="outlined" 
+                    className={classes.learnButtonHero} 
+                    onClick={() => props.setValue(2)}
+                  >
                     <span style={{marginRight: 10}}>Learn More</span>
                     <ButtonArrow width={15} height={15} fill={theme.palette.common.blue}/>
                   </Button>
@@ -165,7 +180,7 @@ export default function LandingPage() {
 
         {/* ___Services Block___ */}
         <Grid item>
-          <Grid container direction="row" justify={matchesSM ? "center" : "flex-start"} className={classes.serviceContainer}>
+          <Grid container direction="row" justifyContent={matchesSM ? "center" : "flex-start"} className={classes.serviceContainer}>
             <Grid item style={{marginLeft: matchesSM ? 0 : "5em", textAlign: matchesSM ? "center" : undefined}}>
               <Typography variant="h4">
                 Custom Software Development
@@ -177,7 +192,13 @@ export default function LandingPage() {
                   Complete digital solutions, from investigation to{" "} 
                   <span className={classes.specialFont}>celebrate</span>
               </Typography>
-              <Button variant="outlined" className={classes.learnButtonServices}>
+              <Button 
+                component={Link} 
+                to='/customSoftware' 
+                variant="outlined" 
+                className={classes.learnButtonServices}
+                onClick={() => {props.setValue(1); props.setSelectedIndex(1)}}
+              >
                   <span style={{marginRight: 10}}>Learn More</span>
                   <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}/>
               </Button>
@@ -187,7 +208,7 @@ export default function LandingPage() {
             </Grid>
           </Grid>
 
-          <Grid container direction="row" justify={matchesSM ? "center" : "flex-end"} className={classes.serviceContainer}>
+          <Grid container direction="row" justifyContent={matchesSM ? "center" : "flex-end"} className={classes.serviceContainer}>
             <Grid item style={{marginLeft: matchesSM ? 0 : "5em", textAlign: matchesSM ? "center" : undefined}}>
               <Typography variant="h4">
                 IOS/Andriod App Development
@@ -199,7 +220,13 @@ export default function LandingPage() {
                   Integrate your web experience or create a standalone 
                   app{matchesSM ? null : <br />} with either mobile platform
               </Typography>
-              <Button variant="outlined" className={classes.learnButtonServices}>
+              <Button 
+                component={Link} 
+                to='/mobileapps' 
+                variant="outlined" 
+                className={classes.learnButtonServices}
+                onClick={() => {props.setValue(1); props.setSelectedIndex(2)}}
+              >
                   <span style={{marginRight: 10}}>Learn More</span>
                   <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}/>
               </Button>
@@ -209,7 +236,7 @@ export default function LandingPage() {
             </Grid>
           </Grid>
 
-          <Grid container direction="row" justify={matchesSM ? "center" : "flex-start"} className={classes.serviceContainer}>
+          <Grid container direction="row" justifyContent={matchesSM ? "center" : "flex-start"} className={classes.serviceContainer}>
             <Grid item style={{marginLeft: matchesSM ? 0 : "5em", textAlign: matchesSM ? "center" : undefined}}>
               <Typography variant="h4">
                 Website Development
@@ -220,7 +247,13 @@ export default function LandingPage() {
                 <Typography variant="subtitle1">
                   Optimized for Search Engine, built for speed.
               </Typography>
-              <Button variant="outlined" className={classes.learnButtonServices}>
+              <Button 
+                component={Link} 
+                to='/websites' 
+                variant="outlined" 
+                className={classes.learnButtonServices}
+                onClick={() => {props.setValue(1); props.setSelectedIndex(3)}}
+              >
                   <span style={{marginRight: 10}}>Learn More</span>
                   <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}/>
               </Button>
@@ -242,7 +275,13 @@ export default function LandingPage() {
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle1">Visionary insights coupled with cutting-edge technology is a recipe for revolution.</Typography>
-                    <Button variant="outlined" className={classes.learnButtonHero}>
+                    <Button 
+                      component={Link} 
+                      to='/revolution' 
+                      variant="outlined" 
+                      className={classes.learnButtonHero}
+                      onClick={() => props.setValue(2)}
+                    >
                       <span style={{marginRight: 10}}>Learn More</span>
                       <ButtonArrow width={15} height={15} fill={theme.palette.common.blue}/>
                     </Button>
@@ -255,20 +294,26 @@ export default function LandingPage() {
         </Grid>
 
         {/* ___Information Block___ */}
-        <Grid container direction="row" style={{height: "80em"}} alignItems="center">
+        <Grid container direction="row" style={{height: "80em"}} alignItems="center" className={classes.infoBackground}>
           <Grid 
             item 
             container 
             direction={ matchesXS ? "column" : "row" } 
-            style={{position: "absolute", textAlign: matchesXS ? "center" : "inherit"}}
-            spacing={matchesXS ? 10 : 0}
+            style={{textAlign: matchesXS ? "center" : "inherit"}}
           >
             <Grid sm item style={{marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em"}}>
-              <Grid container direction="column">
+              <Grid container direction="column" style={{marginBottom: matchesXS ? "10em" : 0}}>
                 <Typography variant="h2" style={{color: "white"}}>About Us</Typography>
                 <Typography variant="subtitle2">Let's get perdonal</Typography>
                 <Grid item>
-                  <Button variant="outlined" className={classes.learnButtonServices} style={{color: "white", borderColor: "white"}}>
+                  <Button 
+                    component={Link} 
+                    to='/about' 
+                    variant="outlined" 
+                    className={classes.learnButtonServices} 
+                    style={{color: "white", borderColor: "white"}}
+                    onClick={() => props.setValue(3)}
+                  >
                       <span style={{marginRight: 10}}>Learn More</span>
                       <ButtonArrow width={10} height={10} fill="white"/>
                   </Button>
@@ -280,7 +325,14 @@ export default function LandingPage() {
                 <Typography variant="h2" style={{color: "white"}}>Contact Us</Typography>
                 <Typography variant="subtitle2">Say hello! :)</Typography>
                 <Grid item>
-                  <Button variant="outlined" className={classes.learnButtonServices} style={{color: "white", borderColor: "white"}}>
+                  <Button 
+                    component={Link} 
+                    to='/contact' 
+                    variant="outlined" 
+                    className={classes.learnButtonServices} 
+                    style={{color: "white", borderColor: "white"}}
+                    onClick={() => props.setValue(4)}
+                  >
                       <span style={{marginRight: 10}}>Learn More</span>
                       <ButtonArrow width={10} height={10} fill="white"/>
                   </Button>
@@ -288,12 +340,11 @@ export default function LandingPage() {
               </Grid>
             </Grid>
           </Grid>
-          <div className={classes.infoBackground} />
         </Grid>
 
         {/* Call to action Block___ */}
         <Grid item>
-          <CallToAction />
+          <CallToAction setValue={props.setValue} />
         </Grid>
 
       </Grid>

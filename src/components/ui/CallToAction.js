@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme => ({
         fontSize: "1.5rem",
         marginRight: "5em",
         marginLeft: "2em",
+        "&:hover": {
+            backgroundColor: theme.palette.secondary.light
+        },
         [theme.breakpoints.down("sm")]: {
             marginLeft: 0,
             marginRight: 0,
@@ -50,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function CallToFunction() {
+export default function CallToFunction(props) {
     const classes = useStyles();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -69,7 +72,13 @@ export default function CallToFunction() {
                         <Typography variant="h2">Simple Software.<br/>Revolutionary Results.</Typography>
                         <Typography variant="subtitle2" style={{fontSize: "1.5rem"}}>Take advantge of the 21st Century.</Typography>
                         <Grid container item justifyContent={matchesSM ? "center" : undefined}>
-                            <Button variant="outlined" className={classes.learnButton}>
+                            <Button 
+                                component={Link} 
+                                to='/revolution' 
+                                variant="outlined" 
+                                className={classes.learnButton}
+                                onClick={() => props.setValue(2)}
+                            >
                                 <span style={{marginRight: 10}}>Learn More</span>
                                 <ButtonArrow width={10} height={10} fill={theme.palette.common.blue}/>
                             </Button>
@@ -78,7 +87,13 @@ export default function CallToFunction() {
                 </Grid>
             </Grid>
             <Grid item>
-                <Button variant="contained" className={classes.estimateButton}>
+                <Button 
+                    component={Link} 
+                    to='/estimate' 
+                    variant="contained" 
+                    className={classes.estimateButton}
+                    onClick={() => props.setValue(5)}
+                >
                     Free Estimate
                 </Button>
             </Grid>
