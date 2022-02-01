@@ -304,7 +304,7 @@ export default function LandingPage(props) {
             <Grid sm item style={{marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em"}}>
               <Grid container direction="column" style={{marginBottom: matchesXS ? "10em" : 0}}>
                 <Typography variant="h2" style={{color: "white"}}>About Us</Typography>
-                <Typography variant="subtitle2">Let's get perdonal</Typography>
+                <Typography variant="subtitle2">Let's get personal</Typography>
                 <Grid item>
                   <Button 
                     component={Link} 
