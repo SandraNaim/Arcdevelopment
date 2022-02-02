@@ -1,12 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Lottie from "react-lottie";
 
 import { makeStyles, useTheme } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import Hidden from "@material-ui/core/Hidden";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 
 import CallToAction from "./ui/CallToAction";
