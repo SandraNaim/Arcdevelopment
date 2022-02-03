@@ -316,7 +316,7 @@ export default function ContactUs(props) {
                             <Button 
                                 variant="contained" 
                                 className={classes.sendButton}
-                                onClick={() => setOpen(true)}
+                                onClick={() => {console.log("message confirmed"); setOpen(false)}}
                                 disabled={
                                     name.length === 0 ||
                                     emailHelper.length !== 0 ||
@@ -364,7 +364,7 @@ export default function ContactUs(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item align={matchesMD ? "center" : undefined} justifyContent={matchesMD ? "center" : undefined}>
+                <Grid item container={matchesMD} align={matchesMD ? "center" : undefined} justifyContent={matchesMD ? "center" : undefined}>
                     <Button 
                         component={Link} 
                         to='/estimate' 
