@@ -6,6 +6,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 
 import ButtonArrow from "./ui/ButtonArrow";
 
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     },
     message: {
         border: `2px solid ${theme.palette.common.blue}`,
-        marginTop: "5em",
+        marginTop: "3em",
         borderRadius: 5
     },
     sendButton: {
@@ -70,6 +72,10 @@ const useStyles = makeStyles((theme) => ({
         "&:hover": {
             backgroundColor: theme.palette.secondary.light
         },
+        [theme.breakpoints.down("sm")]: {
+            height: 40,
+            width: 170,
+        }
     }
 }))
 
@@ -77,6 +83,8 @@ export default function ContactUs(props) {
     const classes = useStyles();
     const theme = useTheme();
     const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
+    const matchesSM = useMediaQuery(theme.breakpoints.down("sm"))
+    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"))
 
     const [name, setName] = useState('');
 
@@ -87,6 +95,8 @@ export default function ContactUs(props) {
     const [phoneHelper, setPhoneHelper] = useState('');
 
     const [message, setMessage] = useState('');
+
+    const [open, setOpen] = useState(false);
 
     const onChange = event => {
         let valid;
@@ -122,7 +132,7 @@ export default function ContactUs(props) {
     return(
         <Grid container direction={matchesMD ? "column" : "row"}>
             {/* ___heading___ */}
-            <Grid lg={4} xl={3} item container justifyContent="center" style={{marginLeft: "auto", marginRight: "auto"}} style={{marginBottom: matchesMD ? "5em" : 0, marginTop: matchesMD ? "5em" : 0}}>
+            <Grid lg={4} xl={3} item container justifyContent="center" style={{marginLeft: "auto", marginRight: "auto"}} style={{marginBottom: matchesMD ? "2em" : 0, marginTop: matchesMD ? "2em" : 0}}>
                 <Grid item>
                     <Grid item>
                         <Typography variant="h2" align={matchesMD ? "center" : undefined} style={{lineHeight: 1}}>
@@ -132,7 +142,7 @@ export default function ContactUs(props) {
                             We're waiting
                         </Typography>
                     </Grid>
-                    <Grid item container direction="row" style={{marginTop: "2em"}}>
+                    <Grid item container direction="row" style={{marginTop: "0.5em"}}>
                         <Grid item>
                             <img alt="phone icon" src={phoneIcon} style={{marginRight: "0.5em"}} />
                         </Grid>
@@ -213,6 +223,7 @@ export default function ContactUs(props) {
                                 phone.length === 0 ||
                                 message.length === 0
                             } 
+                            onClick={() => setOpen(true)}
                         >
                             Send message
                             <img alt="paper airplane" src={airplane} style={{ marginLeft: "1em" }} />
@@ -220,6 +231,108 @@ export default function ContactUs(props) {
                     </Grid>
                 </Grid>
             </Grid>
+
+            {/* ___dialog___ */}
+            <Dialog 
+                open={open} 
+                onClose={() => setOpen(false)}
+                style={{zIndex:9999}}
+                fullScreen={matchesXS}
+                PaperProps={{
+                    style: {
+                        paddingTop: matchesXS ? "0.5em" : "2em",
+                        paddingBottom: matchesXS ? "0.5em" : "2em",
+                        paddingLeft: matchesXS ? 0 : matchesSM ? "5em" : matchesMD ? "10em" : "5em",
+                        paddingRight: matchesXS ? 0 : matchesSM ? "5em" : matchesMD ? "10em" : "5em",
+                    }
+                }}
+            >
+                <DialogContent>
+                    <Grid container direction="column">
+                        <Grid item>
+                            <Typography variant="h4" align="center" gutterBottom>
+                                Confirm Message
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Grid item container direction="column" style={{maxWidth: "20em", marginTop: "0.5em"}}>
+                                <Grid item>
+                                    <TextField 
+                                        id="name" 
+                                        label="Name" 
+                                        variant="standard" 
+                                        fullWidth
+                                        value={name}
+                                        onChange={(event) => setName(event.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        id="email" 
+                                        label="Email" 
+                                        type="email" 
+                                        error={emailHelper.length !== 0}
+                                        helperText={emailHelper}
+                                        variant="standard" 
+                                        fullWidth
+                                        value={email}
+                                        onChange={onChange}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        id="phone" 
+                                        label="Phone" 
+                                        error={phoneHelper.length !== 0}
+                                        helperText={phoneHelper}
+                                        variant="standard" 
+                                        fullWidth
+                                        value={phone}
+                                        onChange={onChange}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid item style={{maxWidth: matchesXS ? "100%" : "20em"}}>
+                                <TextField
+                                    id="message"
+                                    value={message}
+                                    className={classes.message}
+                                    InputProps={{disableUnderline: true}}
+                                    fullWidth
+                                    multiline
+                                    minRows={10}
+                                    onChange={(event) => setMessage(event.target.value)}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item container direction={matchesSM ? "column" : "row"} alignItems="center" style={{marginTop: "0.5em"}}>
+                        <Grid item>
+                            <Button color="primary" style={{fontWeight: 300}} onClick={() => setOpen(false)}>
+                                Cancel
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button 
+                                variant="contained" 
+                                className={classes.sendButton}
+                                onClick={() => setOpen(true)}
+                                disabled={
+                                    name.length === 0 ||
+                                    emailHelper.length !== 0 ||
+                                    phoneHelper.length !== 0 ||
+                                    email.length === 0 ||
+                                    phone.length === 0 ||
+                                    message.length === 0
+                                } 
+                            >
+                                Send message
+                                <img alt="paper airplane" src={airplane} style={{ marginLeft: "1em" }} />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+            </Dialog>
 
             {/* ___call to action___ */}
             <Grid 
