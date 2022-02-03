@@ -77,12 +77,47 @@ export default function ContactUs(props) {
     const classes = useStyles();
     const theme = useTheme();
     const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
-    const matchesSM = useMediaQuery(theme.breakpoints.down("sm"))
 
     const [name, setName] = useState('');
+
     const [email, setEmail] = useState('');
+    const [emailHelper, setEmailHelper] = useState('');
+
     const [phone, setPhone] = useState('');
+    const [phoneHelper, setPhoneHelper] = useState('');
+
     const [message, setMessage] = useState('');
+
+    const onChange = event => {
+        let valid;
+
+        switch(event.target.id) {
+            case 'email':
+                setEmail(event.target.value)
+                valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)
+
+                if(!valid) {
+                    setEmailHelper("Invalid email")
+                } else {
+                    setEmailHelper("")
+                }
+
+                break;
+            case 'phone':
+                setPhone(event.target.value)
+                valid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(event.target.value)
+
+                if(!valid) {
+                    setPhoneHelper("Invalid phone number")
+                } else {
+                    setPhoneHelper("")
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
 
     return(
         <Grid container direction={matchesMD ? "column" : "row"}>
@@ -103,7 +138,7 @@ export default function ContactUs(props) {
                         </Grid>
                         <Grid>
                             <Typography variant="body1" style={{color: theme.palette.common.blue, fontSize: "1rem"}}>
-                                (555) 555-5555
+                                <a href="tel:5555555555" style={{textDecoration: "none", color: "inherit"}}>(555) 555-5555</a>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -113,7 +148,7 @@ export default function ContactUs(props) {
                         </Grid>
                         <Grid>
                             <Typography variant="body1" style={{color: theme.palette.common.blue, fontSize: "1rem"}}>
-                                zachary@gmail.com
+                                <a href="mailto:zachary@gmail.com" style={{textDecoration: "none", color: "inherit"}}>zachary@gmail.com </a>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -133,20 +168,24 @@ export default function ContactUs(props) {
                                 id="email" 
                                 label="Email" 
                                 type="email" 
+                                error={emailHelper.length !== 0}
+                                helperText={emailHelper}
                                 variant="standard" 
                                 fullWidth
                                 value={email}
-                                onChange={(event) => setEmail(event.target.value)}
+                                onChange={onChange}
                             />
                         </Grid>
                         <Grid item>
                             <TextField 
                                 id="phone" 
                                 label="Phone" 
+                                error={phoneHelper.length !== 0}
+                                helperText={phoneHelper}
                                 variant="standard" 
                                 fullWidth
                                 value={phone}
-                                onChange={(event) => setPhone(event.target.value)}
+                                onChange={onChange}
                             />
                         </Grid>
                     </Grid>
@@ -163,7 +202,18 @@ export default function ContactUs(props) {
                         />
                     </Grid>
                     <Grid item container justifyContent="center"  style={{marginTop: "2em"}}>
-                        <Button variant="contained" className={classes.sendButton} >
+                        <Button 
+                            variant="contained" 
+                            className={classes.sendButton}
+                            disabled={
+                                name.length === 0 ||
+                                emailHelper.length !== 0 ||
+                                phoneHelper.length !== 0 ||
+                                email.length === 0 ||
+                                phone.length === 0 ||
+                                message.length === 0
+                            } 
+                        >
                             Send message
                             <img alt="paper airplane" src={airplane} style={{ marginLeft: "1em" }} />
                         </Button>
