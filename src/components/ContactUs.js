@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import ButtonArrow from "./ui/ButtonArrow";
 
@@ -98,6 +100,10 @@ export default function ContactUs(props) {
 
     const [open, setOpen] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+
+    const [alert, setAlert] = useState({open: false, message: "", backgroundColor: ""});
+
     const onChange = event => {
         let valid;
 
@@ -128,6 +134,26 @@ export default function ContactUs(props) {
                 break;
         }
     }
+
+    const onConfirm = () => {
+        // axios request call should be written here
+        setLoading(true); 
+        console.log("message confirmed"); 
+        setOpen(false)
+        setLoading(false);
+        setName("");
+        setEmail("");
+        setPhone("");
+        setMessage("");
+        setAlert({open: true, message: "Message sent successfully!", backgroundColor: "#4BB543"})
+    }
+
+    const buttonContent = (
+        <React.Fragment>
+            Send message
+            <img alt="paper airplane" src={airplane} style={{ marginLeft: "1em" }} />
+        </React.Fragment>
+    )
 
     return(
         <Grid container direction={matchesMD ? "column" : "row"}>
@@ -316,7 +342,7 @@ export default function ContactUs(props) {
                             <Button 
                                 variant="contained" 
                                 className={classes.sendButton}
-                                onClick={() => {console.log("message confirmed"); setOpen(false)}}
+                                onClick={onConfirm}
                                 disabled={
                                     name.length === 0 ||
                                     emailHelper.length !== 0 ||
@@ -326,13 +352,22 @@ export default function ContactUs(props) {
                                     message.length === 0
                                 } 
                             >
-                                Send message
-                                <img alt="paper airplane" src={airplane} style={{ marginLeft: "1em" }} />
+                                {loading ? <CircularProgress/> : buttonContent}
                             </Button>
                         </Grid>
                     </Grid>
                 </DialogContent>
             </Dialog>
+
+            {/* ___SnackBar___ */}
+            <Snackbar 
+                open={alert.open}
+                message={alert.message}
+                ContentProps={{style: {backgroundColor: alert.backgroundColor}}} 
+                anchorOrigin={{vertical:"top", horizontal: "center"}}
+                onClose={() => setAlert({...alert, open:false})}
+                autoHideDuration={4000}
+            />
 
             {/* ___call to action___ */}
             <Grid 
